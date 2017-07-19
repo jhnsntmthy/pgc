@@ -5,6 +5,7 @@ var mr = (function ($, window, document){
     var mr         = {},
         components = {documentReady: [],documentReadyDeferred: [], windowLoad: [], windowLoadDeferred: []};
 
+    mr.status = {documentReadyRan: false, windowLoadPending: false};
 
     $(document).ready(documentReady);
     $(window).on("load", windowLoad);
@@ -15,14 +16,22 @@ var mr = (function ($, window, document){
         components.documentReady.concat(components.documentReadyDeferred).forEach(function(component){
             component(context);
         });
+        mr.status.documentReadyRan = true;
+        if(mr.status.windowLoadPending){
+            windowLoad(mr.setContext());
+        }
     }
 
     function windowLoad(context){
-        
-        context = typeof context === "object" ? $ : context;
-        components.windowLoad.concat(components.windowLoadDeferred).forEach(function(component){
-           component(context);
-        });
+        if(mr.status.documentReadyRan){
+            mr.status.windowLoadPending = false;
+            context = typeof context === "object" ? $ : context;
+            components.windowLoad.concat(components.windowLoadDeferred).forEach(function(component){
+               component(context);
+            });
+        }else{
+            mr.status.windowLoadPending = true;
+        }
     }
 
     mr.setContext = function (contextSelector){
@@ -57,6 +66,14 @@ mr = (function (mr, $, window, document){
         var today = new Date();
         var year = today.getFullYear();
         $('.update-year').text(year);
+    };
+
+    mr.util.windowLoad = function($){
+        $('[data-delay-src]').each(function(){
+            var $el = $(this);
+            $el.attr('src', $el.attr('data-delay-src'));
+            $el.removeAttr('data-delay-src');
+        });
     };
 
     mr.util.getURLParameter = function(name) {
@@ -128,16 +145,14 @@ mr = (function (mr, $, window, document){
     mr.util.activateIdleSrc = function(context, selector){
         
         selector     = (typeof selector !== typeof undefined) ? selector : '';
-        var elems    = context.is(selector+'[src]') ? context : context.find(selector+'[src]');
+        var elems    = context.is(selector+'[data-src]') ? context : context.find(selector+'[data-src]');
 
         elems.each(function(index, elem){
             elem = $(elem);
             var dataSrc    = elem.attr('data-src');
 
-            // If there is no data-src, save current source to it
-            if(typeof dataSrc !== typeof undefined){
-                elem.attr('src', dataSrc);
-            }
+            // Write the 'src' attribute using the 'data-src' value
+            elem.attr('src', dataSrc);
         });
     };
 
@@ -170,6 +185,7 @@ mr = (function (mr, $, window, document){
     };
 
     mr.components.documentReady.push(mr.util.documentReady);
+    mr.components.windowLoad.push(mr.util.windowLoad);
     return mr;
 
 }(mr, jQuery, window, document));
@@ -367,22 +383,13 @@ mr = (function (mr, $, window, document){
 //////////////// Accordions
 mr = (function (mr, $, window, document){
     "use strict";
+
+    mr.accordions = {};
+
     
-    var documentReady = function($){
+    mr.accordions.documentReady = function($){
         $('.accordion__title').on('click', function(){
-            var accordion = $(this).closest('.accordion');
-            var li = $(this).closest('li');
-            if(li.hasClass('active')){
-                li.removeClass('active');      
-            }else{
-                if(accordion.hasClass('accordion--oneopen')){
-                    var wasActive = accordion.find('li.active');
-                    wasActive.removeClass('active');
-                    li.addClass('active');
-                }else{
-                    li.addClass('active');
-                }
-            }
+            mr.accordions.activatePanel($(this));
         });
 
         $('.accordion').each(function(){
@@ -390,13 +397,67 @@ mr = (function (mr, $, window, document){
             var minHeight = accordion.outerHeight(true);
             accordion.css('min-height',minHeight);
         });
+
+        if(window.location.hash !== ''){
+             mr.accordions.activatePanelById(window.location.hash, true);
+        }
+
+        $('a[href^="#"]').on('click', function(){
+             mr.accordions.activatePanelById($(this).attr('href'), true);
+        });
     };
 
-    mr.accordions = {
-        documentReady : documentReady        
+    
+
+    mr.accordions.activatePanel = function(panel, forceOpen){
+        var $panel    = $(panel),
+            accordion = $panel.closest('.accordion'),
+            li        = $panel.closest('li'),
+            openEvent = document.createEvent('Event'),
+            closeEvent = document.createEvent('Event');
+            
+            openEvent.initEvent('panelOpened.accordions.mr', true, true);
+            closeEvent.initEvent('panelClosed.accordions.mr', true, true);
+        
+        if(li.hasClass('active')){
+            if(forceOpen !== true){
+                li.removeClass('active');
+                $panel.trigger('panelClosed.accordions.mr').get(0).dispatchEvent(closeEvent);
+            }
+        }else{
+            if(accordion.hasClass('accordion--oneopen')){
+                var wasActive = accordion.find('li.active');
+                if(wasActive.length){
+                    wasActive.removeClass('active');
+                    wasActive.trigger('panelClosed.accordions.mr').get(0).dispatchEvent(closeEvent);
+                }
+                li.addClass('active');
+                li.trigger('panelOpened.accordions.mr').get(0).dispatchEvent(openEvent);
+                
+            }else{
+                if(!li.is('.active')){
+                    li.trigger('panelOpened.accordions.mr').get(0).dispatchEvent(openEvent);
+                }
+                li.addClass('active');
+            }
+        }
+    }
+
+    mr.accordions.activatePanelById = function(id, forceOpen){
+        var panel;
+
+        if(id !== '' && id !== '#'){
+            panel = $('.accordion > li > .accordion__title#'+id.replace('#', ''));
+            if(panel.length){
+                $('html, body').stop(true).animate({
+                    scrollTop: (panel.offset().top - 50)
+                }, 1200);
+                mr.accordions.activatePanel(panel, forceOpen);
+            }
+        }
     };
 
-    mr.components.documentReady.push(documentReady);
+    mr.components.documentReady.push(mr.accordions.documentReady);
     return mr;
 
 }(mr, jQuery, window, document));
@@ -567,7 +628,7 @@ mr = (function (mr, $, window, document){
         }
     };
 
-    mr.components.documentReady.push(documentReady);
+    mr.components.documentReadyDeferred.push(documentReady);
     return mr;
 
 }(mr, jQuery, window, document));
@@ -597,10 +658,15 @@ mr = (function (mr, $, window, document){
                     dropdown.addClass('dropdown--active');
                 }
             });
-            jQuery(document).on('click touchstart', 'body', function(event){
+            jQuery(document).on('click touchstart', 'body:not(.dropdowns--hover)', function(event){
                 if(!jQuery(event.target).is('[class*="dropdown"], [class*="dropdown"] *')){
                     $('.dropdown--active').removeClass('dropdown--active');
                 }
+            });
+            jQuery('body.dropdowns--hover .dropdown').on('click', function(event){
+                event.stopPropagation();
+                var hoverDropdown = jQuery(this);
+                hoverDropdown.toggleClass('dropdown--active');
             });
 
             // Append a container to the body for measuring purposes
@@ -719,40 +785,25 @@ mr = (function (mr, $, window, document){
     var documentReady = function($){
 
         mr.forms.captcha.widgets = [];
-        
-        //////////////// Checkbox Inputs
 
-        $('.input-checkbox').on('click', function() {
-            var checkbox = $(this);
-            checkbox.toggleClass('checked');
-            
-            var input = checkbox.find('input');
-            if (input.prop('checked') === false) {
-                input.prop('checked', true);
-            } else {
-                input.prop('checked', false);
+        /// Checkbox & Radio Inputs
+
+        $('.input-checkbox input[type="checkbox"], .input-radio input[type="radio"]').each(function(index){
+            var input = $(this),
+                label = input.siblings('label'),
+                id    = "input-assigned-"+index;
+            if(typeof input.attr('id') === typeof undefined || input.attr('id') === ""){
+                input.attr('id',id);
+                label.attr('for',id);
+            }else{
+                id = input.attr('id');
+                label.attr('for',id);
             }
-            input.trigger('change');
-            return false;
-        });
-
-        //////////////// Radio Buttons
-
-        $('.input-radio').on('click', function(e) {
-            if ($(e.target).is('input')){return;}
-            var radio = $(this),
-                name  = radio.find('input[type=radio]').attr('name');
-
-            radio.closest('form').find('[type=radio][name*='+name.replace(/\[[^\]]*\]/g, '')+']').each(function(){
-                $(this).parent().removeClass('checked');
-            });
-            radio.addClass('checked').find('input').click().prop('checked', true);
-            return false;
         });
 
         //////////////// Number Inputs
 
-        $('.input-number__controls > span').on('click',function(){
+        $('.input-number__controls > span').off('click.mr').on('click.mr',function(){
             var control = jQuery(this),
                 parent   = control.closest('.input-number'),
                 input    = parent.find('input[type="number"]'),
@@ -779,7 +830,7 @@ mr = (function (mr, $, window, document){
 
         //////////////// File Uploads
 
-        $('.input-file .btn').on('click',function(){
+        $('.input-file .btn').off('click.mr').on('click.mr',function(){
             $(this).siblings('input').trigger('click');
             return false;
         });
@@ -979,7 +1030,7 @@ mr = (function (mr, $, window, document){
 
                 jQuery.ajax({
                     type: "POST",
-                    url: "mail/mail.php",
+                    url: (formAction !== "" ? formAction : "mail/mail.php"),
                     data: thisForm.serialize()+"&url="+window.location.href+"&captcha="+captchaUsed,
                     success: function(response) {
                         // Swiftmailer always sends back a number representing number of emails sent.
@@ -1138,13 +1189,15 @@ mr = (function (mr, $, window, document){
 
     mr.forms.captcha.renderWidgets = function(){
         mr.forms.captcha.widgets.forEach(function(widget){
-            widget.id = grecaptcha.render(widget.element, {
-                'sitekey' : mr.forms.captcha.sitekey,
-                'theme' : widget.theme,
-                'size' : widget.size,
-                'callback' : mr.forms.captcha.setHuman
-            });
-            widget.parentForm.data('recaptchaWidgetID', widget.id);
+            if(widget.element.innerHTML === ''){
+                widget.id = grecaptcha.render(widget.element, {
+                    'sitekey' : mr.forms.captcha.sitekey,
+                    'theme' : widget.theme,
+                    'size' : widget.size,
+                    'callback' : mr.forms.captcha.setHuman
+                });
+                widget.parentForm.data('recaptchaWidgetID', widget.id);
+            }
         });
     };
 
@@ -1422,58 +1475,7 @@ mr = (function (mr, $, window, document){
     
     var documentReady = function($){
 
-        $('.masonry').each(function(){
-            var masonry = $(this);
-            var masonryContainer = masonry.find('.masonry__container'),
-                filters          = masonry.find('.masonry__filters'),
-                // data-filter-all-text can be used to set the word for "all"
-                filterAllText    = typeof filters.attr('data-filter-all-text') !== typeof undefined ? filters.attr('data-filter-all-text') : "All",
-                filtersList;
-            
-            // If a filterable masonry item exists
-            if(masonryContainer.find('.masonry__item[data-masonry-filter]').length){
-                
-                // Create empty ul for filters
-                filters.append('<ul></ul>');
-                filtersList = filters.find('> ul');
-
-                // To avoid cases where user leave filter attribute blank
-                // only take items that have filter attribute
-                masonryContainer.find('.masonry__item[data-masonry-filter]').each(function(){
-                    var masonryItem  = $(this),
-                        filterString = masonryItem.attr('data-masonry-filter'),
-                        filtersArray = [];
-
-                    // If not undefined or empty
-                    if(typeof filterString !== typeof undefined && filterString !== ""){
-                        // Split tags from string into array 
-                        filtersArray = filterString.split(',');
-                    }
-                    jQuery(filtersArray).each(function(index, tag){
-
-                        // Slugify the tag
-
-                        var slug = mr.util.slugify(tag);
-
-                        // Add the filter class to the masonry item
-
-                        masonryItem.addClass('filter-'+slug);
-
-                        // If this tag does not appear in the list already, add it
-                        if(!filtersList.find('[data-masonry-filter="'+slug+'"]').length){
-                            filtersList.append('<li data-masonry-filter="'+slug+'">'+tag+'</li>');
-                            
-                        }
-                    }); 
-                });
-
-                mr.util.sortChildrenByText($(this).find('.masonry__filters ul'));
-                // Add a filter "all" option
-                filtersList.prepend('<li class="active" data-masonry-filter="*">'+filterAllText+'</li>');
-
-            }
-            //End of "if filterable masonry item exists"
-        });
+        mr.masonry.updateFilters();
 
         $(document).on('click touchstart', '.masonry__filters li', function(){
             var masonryFilter = $(this);
@@ -1530,9 +1532,104 @@ mr = (function (mr, $, window, document){
         });
     };
 
+    
     mr.masonry = {
         documentReady : documentReady,
         windowLoad : windowLoad        
+    };
+
+    mr.masonry.updateFilters = function(masonry){
+
+        // If no argument is supplied, just apply the update to all masonry sets on the page.
+        masonry = typeof masonry !== typeof undefined ? masonry : '.masonry';
+        
+        var $masonry = $(masonry);
+        
+        $masonry.each(function(){
+            var $masonry         = $(this),
+                masonryContainer = $masonry.find('.masonry__container'),
+                filters          = $masonry.find('.masonry__filters'),
+                // data-filter-all-text can be used to set the word for "all"
+                filterAllText    = typeof filters.attr('data-filter-all-text') !== typeof undefined ? filters.attr('data-filter-all-text') : "All",
+                filtersList;
+            
+            // Ensure we are working with a .masonry element
+            if($masonry.is('.masonry')){
+                // If a filterable masonry item exists
+                if(masonryContainer.find('.masonry__item[data-masonry-filter]').length){
+                    
+                    // Create empty ul for filters
+                    filtersList = filters.find('> ul');
+
+                    if(!filtersList.length){
+                        filtersList = filters.append('<ul></ul>').find('> ul');
+                    }
+
+                    // To avoid cases where user leave filter attribute blank
+                    // only take items that have filter attribute
+                    masonryContainer.find('.masonry__item[data-masonry-filter]').each(function(){
+                        var masonryItem  = $(this),
+                            filterString = masonryItem.attr('data-masonry-filter'),
+                            filtersArray = [];
+
+                        // If not undefined or empty
+                        if(typeof filterString !== typeof undefined && filterString !== ""){
+                            // Split tags from string into array 
+                            filtersArray = filterString.split(',');
+                        }
+                        jQuery(filtersArray).each(function(index, tag){
+
+                            // Slugify the tag
+
+                            var slug = mr.util.slugify(tag);
+
+                            // Add the filter class to the masonry item
+
+                            masonryItem.addClass('filter-'+slug);
+
+                            // If this tag does not appear in the list already, add it
+                            if(!filtersList.find('[data-masonry-filter="'+slug+'"]').length){
+                                filtersList.append('<li data-masonry-filter="'+slug+'">'+tag+'</li>');
+                                
+                            }
+                        }); 
+                    });
+
+                    mr.util.sortChildrenByText($(this).find('.masonry__filters ul'));
+                    // Add a filter "all" option
+                    if(!filtersList.find('[data-masonry-filter="*"]').length){
+                        filtersList.prepend('<li class="active" data-masonry-filter="*">'+filterAllText+'</li>');
+                    }
+
+                }
+                //End of "if filterable masonry item exists"
+            }
+            //End of "if $masonry is .masonry"
+        });
+
+    };
+
+    mr.masonry.updateLayout = function(masonry){
+        
+        // If no argument is supplied, just apply the update to all masonry sets on the page.
+        masonry = typeof masonry !== typeof undefined ? masonry : '.masonry';
+
+        var $masonry = $(masonry);
+        
+
+        $masonry.each(function(){
+            var collection       = $(this),
+                newItems         = collection.find('.masonry__item:not([style])'),
+                masonryContainer = collection.find('.masonry__container');
+
+            if(collection.is('.masonry')){
+                if(newItems.length){
+                    masonryContainer.isotope('appended', newItems).isotope( 'layout');
+                }
+                
+                masonryContainer.isotope('layout');
+            }
+        });
     };
 
     mr.components.documentReady.push(documentReady);
@@ -1540,6 +1637,7 @@ mr = (function (mr, $, window, document){
     return mr;
 
 }(mr, jQuery, window, document));
+
 
 //////////////// Modals
 mr = (function (mr, $, window, document){
@@ -1704,8 +1802,14 @@ mr = (function (mr, $, window, document){
             }  
         }
 
+        jQuery(document).on('click','a[href^="#"]', function(){
+            var modalID = $(this).attr('href').replace('#', '');
+            mr.modals.closeActiveModal();
+            setTimeout(mr.modals.showModal, 500,'[data-modal-id="'+modalID+'"]', 0);
+        });
+
         // Make modal scrollable
-        $(document).on('wheel mousewheel scroll','.modal-content, .modal-content .scrollable', function(evt){
+        jQuery(document).on('wheel mousewheel scroll','.modal-content, .modal-content .scrollable', function(evt){
             if(evt.preventDefault){evt.preventDefault();}
             if(evt.stopPropagation){evt.stopPropagation();}
             this.scrollTop += (evt.originalEvent.deltaY); 
@@ -1812,11 +1916,13 @@ mr = (function (mr, $, window, document){
     		checkbox = $(this);
     		id = checkbox.attr('id');
     		label = form.find('label[for='+id+']');
+            if(!label.length){
+                label = $('<label for="'+id+'"></label>');
+            }
     		
     		checkbox.before('<div class="input-checkbox" data-id="'+id+'"></div>');
     		$('.input-checkbox[data-id="'+id+'"]').prepend(checkbox);
     		$('.input-checkbox[data-id="'+id+'"]').prepend(label);
-    		$('.input-checkbox[data-id="'+id+'"]').prepend('<div class="inner"></div>');
     	});
 
     	form.find('button[type="submit"]').each(function(){
@@ -1832,6 +1938,7 @@ mr = (function (mr, $, window, document){
         form.addClass('form--active');
 
         mr.newsletters.prepareAjaxAction(form);
+
 
     });
 
@@ -1882,10 +1989,13 @@ mr = (function (mr, $, window, document){
     	// Wrap checboxes elements in template code
 
     	form.find('input[type="checkbox"]').each(function(){
-    		checkbox = $(this);
+    		checkbox = jQuery(this);
     		parent = checkbox.parent();
     		label = parent.find('label');
-    		checkbox.before('<div class="input-checkbox"><div class="inner"></div></div>');
+            if(!label.length){
+                label = jQuery('<label>');
+            }
+    		checkbox.before('<div class="input-checkbox"></div>');
     		parent.find('.input-checkbox').append(checkbox);
     		parent.find('.input-checkbox').append(label);
     	});
@@ -1893,10 +2003,13 @@ mr = (function (mr, $, window, document){
     	// Wrap radio elements in template code
 
     	form.find('input[type="radio"]').each(function(){
-    		radio = $(this);
+    		radio = jQuery(this);
     		parent = radio.closest('li');
     		label = parent.find('label');
-    		radio.before('<div class="input-radio"><div class="inner"></div></div>');
+            if(!label.length){
+                label = jQuery('<label>');
+            }
+    		radio.before('<div class="input-radio"></div>');
     		parent.find('.input-radio').prepend(radio);
     		parent.find('.input-radio').prepend(label);
     	});
@@ -1936,6 +2049,7 @@ mr = (function (mr, $, window, document){
         form.addClass('form--active');
 
         mr.newsletters.prepareAjaxAction(form);
+
      
     
 
@@ -2082,18 +2196,14 @@ mr = (function (mr, $, window, document){
 mr = (function (mr, $, window, document){
     "use strict";
     
+    mr.parallax = {};
+
     var documentReady = function($){
         
         var $window      = $(window); 
         var windowWidth  = $window.width();
         var windowHeight = $window.height();
         var navHeight    = $('nav').outerHeight(true);
-
-        // Disable parallax on mobile
-
-        if ((/Android|iPhone|iPad|iPod|BlackBerry|Windows Phone/i).test(navigator.userAgent || navigator.vendor || window.opera)) {
-            $('section').removeClass('parallax');
-        }
 
         if (windowWidth > 768) {
             var parallaxHero = $('.parallax:nth-of-type(1)'),
@@ -2106,8 +2216,14 @@ mr = (function (mr, $, window, document){
         }
     };
 
-    mr.parallax = {
-        documentReady : documentReady        
+    
+    mr.parallax.documentReady = documentReady;        
+    
+    mr.parallax.update = function(){
+        if(typeof mr_parallax !== typeof undefined){
+            mr_parallax.profileParallaxElements();
+            mr_parallax.mr_parallaxBackground();
+        }
     };
 
     mr.components.documentReady.push(documentReady);
@@ -2266,6 +2382,8 @@ mr = (function (mr, $, window, document){
               }
             });
         });
+
+        mr.parallax.update();
         
     };
 
@@ -2286,15 +2404,18 @@ mr = (function (mr, $, window, document){
     mr.smoothscroll.init = function(){
         mr.smoothscroll.sections = [];
 
+       
+
         $('a.inner-link').each(function(){
             var sectionObject = {},
                 link          = $(this),
                 href          = link.attr('href'),
-                validLink     = new RegExp('^#[^\n^\s^\#^\.]+$');
-            
+                validLink     = new RegExp('^#[^\r\n\t\f\v\#\.]+$','gm');
+                            
             if(validLink.test(href)){
-
+                
                 if($('section'+href).length){
+
                     sectionObject.id     = href;
                     sectionObject.top = Math.round($(href).offset().top);
                     sectionObject.height = Math.round($(href).outerHeight());
@@ -2368,6 +2489,8 @@ mr = (function (mr, $, window, document){
 //////////////// Tabs
 mr = (function (mr, $, window, document){
     "use strict";
+
+    mr.tabs = {};
     
     var documentReady = function($){
         $('.tabs').each(function(){
@@ -2382,35 +2505,73 @@ mr = (function (mr, $, window, document){
             });
         });
         
-        $('.tabs li').on('click', function(){
-            var clickedTab    = $(this),
-                tabContainer  = clickedTab.closest('.tabs-container'),
-                activeIndex   = (clickedTab.index()*1)+(1),
-                activeContent = tabContainer.find('> .tabs-content > li:nth-of-type('+activeIndex+')'),
-                iframe, radial;
+        $('.tabs > li').on('click', function(){
+            var clickedTab = $(this), hash;
+            mr.tabs.activateTab(clickedTab);
 
-            tabContainer.find('> .tabs > li').removeClass('active');
-            tabContainer.find('> .tabs-content > li').removeClass('active');
-            
-            clickedTab.addClass('active');
-            activeContent.addClass('active');
-            
-
-            // If there is an <iframe> element in the tab, reload its content when the tab is made active.
-            iframe = activeContent.find('iframe');
-            if(iframe.length){
-                iframe.attr('src', iframe.attr('src'));
+            // Update the URL bar if the currently clicked tab has an ID
+            if(clickedTab.is('[id]')){
+                // Create the hash from the tab's ID
+                hash = '#'+ clickedTab.attr('id');
+                // Check we are in a newish browser with the history API
+                if(history.pushState) {
+                    history.pushState(null, null, hash);
+                }
+                else {
+                    location.hash = hash;
+                }
             }
-
         });
+
+        $('.tabs li.active').each(function(){
+            mr.tabs.activateTab(this);
+        });
+
+        if(window.location.hash !== ''){
+            mr.tabs.activateTabById(window.location.hash);
+        }
+
+        $('a[href^="#"]').on('click', function(){
+            mr.tabs.activateTabById($(this).attr('href'));
+        });
+
+    };
+
+    mr.tabs.activateTab = function(tab){
+        var clickedTab    = $(tab),
+            tabContainer  = clickedTab.closest('.tabs-container'),
+            activeIndex   = (clickedTab.index()*1)+(1),
+            activeContent = tabContainer.find('> .tabs-content > li:nth-of-type('+activeIndex+')'),
+            openEvent     = document.createEvent('Event'),
+            iframe, radial;
+
+            openEvent.initEvent('tabOpened.tabs.mr', true, true);
+
+
+        tabContainer.find('> .tabs > li').removeClass('active');
+        tabContainer.find('> .tabs-content > li').removeClass('active');
         
-        $('.tabs li.active').trigger('click');
+        clickedTab.addClass('active').trigger('tabOpened.tabs.mr').get(0).dispatchEvent(openEvent);
+        activeContent.addClass('active');
+
+        
+
+        // If there is an <iframe> element in the tab, reload its content when the tab is made active.
+        iframe = activeContent.find('iframe');
+        if(iframe.length){
+            iframe.attr('src', iframe.attr('src'));
+        }
     };
 
-    mr.tabs = {
-        documentReady : documentReady        
+
+
+    mr.tabs.activateTabById = function(id){
+        if(id !== '' && id !== '#'){
+            $('.tabs > li#'+id.replace('#', '')).click();
+        }
     };
 
+    mr.tabs.documentReady = documentReady;
     mr.components.documentReady.push(documentReady);
     return mr;
 
@@ -2581,7 +2742,7 @@ mr = (function (mr, $, window, document){
 
 			$('.video-cover').each(function(){
 			    var videoCover = $(this);
-			    if(videoCover.find('iframe').length){
+			    if(videoCover.find('iframe[src]').length){
 			        videoCover.find('iframe').attr('data-src', videoCover.find('iframe').attr('src'));
 			        videoCover.find('iframe').attr('src','');
 			    }
@@ -2621,13 +2782,15 @@ mr = (function (mr, $, window, document){
 
 		$('.wizard').each(function(){
 			var wizard = jQuery(this);
-			wizard.steps({
-				headerTag: "h5",
-				bodyTag: "section",
-				transitionEffect: "slideLeft",
-				autoFocus: true
-			});
-			wizard.addClass('active');
+			if(!wizard.steps){  	
+				wizard.steps({
+					headerTag: "h5",
+					bodyTag: "section",
+					transitionEffect: "slideLeft",
+					autoFocus: true
+				});
+				wizard.addClass('active');
+			}
 		});
 			
 	  };

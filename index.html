@@ -9,12 +9,381 @@
         <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/flickity.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/stack-interface.css" rel="stylesheet" type="text/css" media="all" />
-        <link href="css/theme.css" rel="stylesheet" type="text/css" media="all" />
+        <link href="css/theme-serpent.css" rel="stylesheet" type="text/css" media="all" />
         <link href="css/custom.css" rel="stylesheet" type="text/css" media="all" />
         <link href="https://fonts.googleapis.com/css?family=Fira+Sans:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
         <link href="css/font-fira.css" rel="stylesheet" type="text/css">
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.css" />
+        <link type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials-theme-classic.css" />
 
     </head>
+    <body data-smooth-scroll-offset="77">
+
+      <div id="fb-root"></div>
+      <script>
+        (function(d, s, id) {
+          var js, fjs = d.getElementsByTagName(s)[0];
+          if (d.getElementById(id)) return;
+          js = d.createElement(s); js.id = id;
+          js.src = "https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.9&appId=447593598945620";
+          fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+      </script>
+
+        <div class="nav-container">
+            <div>
+                <div class="bar bar--sm visible-xs">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-3 col-sm-2">
+                                <a href="index.html"> <img class="logo logo-dark" alt="logo" src="img/logo-dark.png"> <img class="logo logo-light" alt="logo" src="img/logo-light.png"> </a>
+                            </div>
+                            <div class="col-xs-9 col-sm-10 text-right">
+                                <a href="#" class="hamburger-toggle" data-toggle-class="#menu2;hidden-xs hidden-sm"> <i class="icon icon--sm stack-interface stack-menu"></i> </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <nav id="menu2" class="bar bar-2 hidden-xs">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-2 text-center text-left-sm hidden-xs col-md-push-5">
+                                <div class="bar__module">
+                                    <a href="index.html"> <img class="logo logo-dark" alt="logo" src="img/logo-dark.png"> <img class="logo logo-light" alt="logo" src="img/logo-light.png"> </a>
+                                </div>
+                            </div>
+                            <div class="col-md-5 col-md-pull-2">
+                                <div class="bar__module">
+                                    <ul class="menu-horizontal text-left">
+                                        <li> 
+                                          <a href="#">
+                                          Previous
+                                          </a> 
+                                        </li>
+                                        <li> 
+                                          <a href="#">
+                                          All
+                                          </a> 
+                                        </li>
+                                        <li> 
+                                          <a href="#">
+                                          Random
+                                          </a> 
+                                        </li>
+                                        <li> 
+                                          <a href="#">
+                                          Next
+                                          </a> 
+                                        </li>
+                                        <!-- <li class="dropdown"> <span class="dropdown__trigger">
+                                        Dropdown Slim
+                                    </span>
+                                            <div class="dropdown__container">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="dropdown__content col-md-2">
+                                                            <ul class="menu-vertical">
+                                                                <li> <a href="#">Single Link</a> </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                        <li class="dropdown"> <span class="dropdown__trigger">
+                                        Dropdown Wide
+                                    </span>
+                                            <div class="dropdown__container">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="dropdown__content col-md-12">
+                                                            <div class="col-md-3">
+                                                                <h5>Menu Title</h5>
+                                                                <ul class="menu-vertical">
+                                                                    <li> <a href="#">Single Link</a> </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h5>Menu Title</h5>
+                                                                <ul class="menu-vertical">
+                                                                    <li> <a href="#">Single Link</a> </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h5>Menu Title</h5>
+                                                                <ul class="menu-vertical">
+                                                                    <li> <a href="#">Single Link</a> </li>
+                                                                </ul>
+                                                            </div>
+                                                            <div class="col-md-3">
+                                                                <h5>Menu Title</h5>
+                                                                <ul class="menu-vertical">
+                                                                    <li> <a href="#">Single Link</a> </li>
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li> -->
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="col-md-5 text-right text-left-xs text-left-sm">
+                                <div class="bar__module">
+                                    <a class="btn btn--sm type--uppercase" href="#"> <span class="btn__text">
+                                    Get Help
+                                </span> </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </div>
+        <div class="main-container">
+            <section class="imagebg feature-large-7 switchable">
+                <div class="background-image-holder"> <img alt="background" src="img/cust-serv.jpg"> </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-7 col-md-5">
+                            <div class="boxed boxed--lg border--round bg--white">
+                                <div class="col-md-10 col-md-offset-1 col-sm-12">
+                                    <h3>How do we&nbsp;<b>NOT</b>&nbsp;solve a customer with a problem?</h3>
+                                    <p class="lead">Think about a problem that faces your team related to its customers. <br><br>Make a list that answers the question, “How would we NOT solve this problem?” That is, “what approaches to solving the problem would we never consider?” <br><br>Look at the list after it is completed. Ask yourself, “Is there anything interesting here? Why are these not good solutions and is there a kernel of a good solution in one of these strategies?” <br><br>This could spark creative thinking.</p>
+                                    <hr class="short">
+                                    <p> </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="text-center bg--secondary space--xs">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-6 col-md-3 action-btn" id='action-link'>
+                            <div class="text-block"> <i class="icon icon-Like icon--lg"></i>
+                                <h4>Take Action</h4>
+                                <p> commit to doing this challenge</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 action-btn goto-comments" id='community-link'>
+                            <div class="text-block"> <i class="icon icon-Conference icon--lg"></i>
+                                <h4>Join Others</h4>
+                                <p> leave a comment below to discuss</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 action-btn" id='dig-link'>
+                            <div class="text-block"> <i class="icon icon-Shovel icon--lg"></i>
+                                <h4>Dig Deeper</h4>
+                                <p> get deeper with this challenge</p>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 col-md-3 action-btn" id='guidance-link'>
+                            <div class="text-block"> <i class="icon icon-Affiliate icon--lg"></i>
+                                <h4>Get Extra Support</h4>
+                                <p> see our menu for extra guidance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="cover imagebg text-center height-auto image--light" data-gradient-bg="#ffff99,#ffffcc,#ffffee,#ffffdd">
+                <div class="container">
+                    <div class="row">
+                        <h2>Congratulations for choosing to take action on today's challenge.</h2>
+                        <p>If you like, please share this challenge with your friends &amp; colleagues.</p>
+                        <div id="share"></div>
+                        <br /><br />
+                        <hr />
+                        <h3>Tell us what you uncovered by <a href="#" class="goto-comments">leaving a comment</a> below</h3>
+                    </div>
+                </div>
+            </section>
+            <section class="text-center revealable">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Thumbs-UpSmiley icon--lg"></i>
+                                <h4>Level Up</h4>
+                                <p>Enrolling in one of our Professional Growth Learning Tracks will help you get the professional skills you need to grow.<br></p> <a href="#">Take the Quiz</a> </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Business-ManWoman icon--lg"></i>
+                                <h4>Personal Help</h4>
+                                <p> Speaking to one of our professional Guides or Executive Coaches will help you to unblock any skill you need to succeed.</p> <a href="#">Schedule a Free Session</a> </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Network icon--lg"></i>
+                                <h4>Workshops</h4>
+                                <p>One of our upcoming live workshops will be coming to a city near you. Check the upcoming calendar for dates and topics.</p> <a href="#">See our Workshops</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="imageblock switchable feature-large">
+                <div class="imageblock__content col-md-6 col-sm-4 pos-right">
+                    <div class="background-image-holder"> <img alt="image" src="img/make-list-sm.jpg"> </div>
+                </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-5 col-sm-7">
+                            <h2>How do we <strong>NOT</strong> solve a customer with a problem?</h2>
+                            <p class="lead"> Think about a problem that faces your team related to its customers. 
+                              <br><br>Make a list that answers the question, “How would we NOT solve this problem?” That is, “what approaches to solving the problem would we never consider?” 
+                              <br><br>Look at the list after it is completed. Ask yourself, “Is there anything interesting here? Why are these not good solutions and is there a kernel of a good solution in one of these strategies?” 
+                              <br><br>This could spark creative thinking. </p>
+                            <p class="lead"> </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="text-center revealable">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Thumbs-UpSmiley icon--lg"></i>
+                                <h4>Level Up</h4>
+                                <p>Enrolling in one of our Professional Growth Learning Tracks will help you get the professional skills you need to grow.<br></p> <a href="#">Take the Quiz</a> </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Business-ManWoman icon--lg"></i>
+                                <h4>Personal Help</h4>
+                                <p> Speaking to one of our professional Guides or Executive Coaches will help you to unblock any skill you need to succeed.</p> <a href="#">Schedule a Free Session</a> </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Network icon--lg"></i>
+                                <h4>Workshops</h4>
+                                <p>One of our upcoming live workshops will be coming to a city near you. Check the upcoming calendar for dates and topics.</p> <a href="#">See our Workshops</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="cover imagebg text-center height-auto" data-gradient-bg="#112211,#2a272f,#14088D,#382d3f,#2d202c">
+                <div class="background-image-holder background--top"> <img alt="background" src="img/cust-serv.jpg"> </div>
+                <div class="container pos-vertical-center">
+                    <div class="row">
+                        <div class="col-sm-9 col-md-7">
+                            <h1> How do we NOT solve a customer with a problem? </h1>
+                            <p class="lead">Think about a problem that faces your team related to its customers. <br><br>Make a list that answers the question, “How would we NOT solve this problem?” That is, “what approaches to solving the problem would we never consider?” <br><br>Look at the list after it is completed. Ask yourself, “Is there anything interesting here? Why are these not good solutions and is there a kernel of a good solution in one of these strategies?” <br><br>This could spark creative thinking.</p>
+                            <a class="btn type--uppercase" href="#"> <span class="btn__text">
+						Take Action
+					</span> </a>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="text-center revealable">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Thumbs-UpSmiley icon--lg"></i>
+                                <h4>Level Up</h4>
+                                <p>Enrolling in one of our Professional Growth Learning Tracks will help you get the professional skills you need to grow.<br></p> <a href="#">Take the Quiz</a> </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Business-ManWoman icon--lg"></i>
+                                <h4>Personal Help</h4>
+                                <p> Speaking to one of our professional Guides or Executive Coaches will help you to unblock any skill you need to succeed.</p> <a href="#">Schedule a Free Session</a> </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-3 boxed boxed--lg boxed--border"> <i class="icon icon-Network icon--lg"></i>
+                                <h4>Workshops</h4>
+                                <p>One of our upcoming live workshops will be coming to a city near you. Check the upcoming calendar for dates and topics.</p> <a href="#">See our Workshops</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section id="section-comments">
+              <div class="container">
+                <div class="row">
+                  <div class="fb-comments" data-href="http://zelospgc.netlify.com" data-numposts="15"></div>
+                </div>
+              </div>
+            </section>
+            <footer class="text-center space--sm footer-5">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="heading-block">
+                                <ul class="list-inline list--hover">
+                                    <li> <a href="/"><span>Home</span></a> </li>
+                                    <li> <a href="https://zelosllc.com"><span>Zelos LLC</span></a> </li>
+                                    <li> <a href="/challenges"><span>Daily Challenges</span></a> </li>
+                                    <li> <a href="https://progrowthcenter.com"><span>Professional Growth Center</span></a> </li>
+                                    <li> <a href="https://zelosllc.com/guides_coaches"><span>Guides &amp; Executive Coaches</span></a> </li>
+                                    <li> <a href="https://zelosllc.com/workshops"><span>Workshops</span></a> </li>
+                                    <li> <a href="/help"><span>Help &amp; Support</span></a> </li>
+                                </ul>
+                            </div>
+                            <div> <span class="type--fine-print">© <span class="update-year"></span> Zelos LLC</span> <a class="type--fine-print" href="#">Privacy Policy</a> <a class="type--fine-print" href="#">Legal</a> </div>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
+        <script src="js/jquery-3.1.1.min.js"></script>
+        <script src="js/parallax.js"></script>
+        <script src="js/granim.min.js"></script>
+        <script src="js/smooth-scroll.min.js"></script>
+        <script src="js/scripts.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery.jssocials/1.4.0/jssocials.min.js"></script>
+
+        <script data-cfasync="false" type="text/javascript">
+          window.civchat = {
+            apiKey: 'AJy1QF'
+          }
+        </script>
+         
+        <script data-cfasync="false" type="text/javascript" src="https://widget.userengage.com/widget.js"></script>
+
+
+        <script>
+          $("#share").jsSocials({
+              shareIn: "popup",
+              showLabel: true,
+              shares: ["email", "twitter", "facebook", "googleplus", "linkedin", "pinterest", "stumbleupon"]
+          });
+        </script>
+
+        <script>
+        var smoothlinks = function() {
+          $('.revealable').each(function() {
+            $(this).addClass('hidden');
+          });
+          $('#section-action').addClass('hidden');
+          $('.goto-comments').click(function(e) {
+            e.preventDefault();
+            $('#section-comments').removeClass('hidden');
+            var anchor = document.querySelector( '#section-comments' );
+            var options = { speed: 700, easing: 'easeInOutCubic', offset: 100 };
+            smoothScroll.animateScroll( anchor, null, options );
+          });
+          $('#action-link').click(function() {
+            $('#section-action').removeClass('hidden');
+            var anchor = document.querySelector( '#section-action' );
+            var options = { speed: 400, easing: 'easeInOutCubic', offset: 100 };
+            smoothScroll.animateScroll( anchor, null, options );
+          });
+          $('#guidance-link').click(function() {
+            $('.section-guidance').each(function() {
+              $(this).removeClass('hidden');
+            });
+            var anchor = document.querySelector( '#section-guidance' );
+            var options = { speed: 700, easing: 'easeInOutCubic', offset: 100 };
+            smoothScroll.animateScroll( anchor, null, options );
+          });
+        };
+
+        $(document).ready(function() {
+          smoothlinks();
+        });
+
+        </script>
+    </body>
+
+<!-- 
     <body data-smooth-scroll-offset="77">
         <div class="nav-container">
             <div class="via-1496276813924" via="via-1496276813924" vio="Help">
@@ -92,25 +461,25 @@
             <section class="text-center bg--secondary space--xs">
                 <div class="container">
                     <div class="row">
-                        <div class="col-sm-6 col-md-3" id='action-link'>
+                        <div class="col-sm-6 col-md-3 action-btn" id='action-link'>
                             <div class="text-block"> <i class="icon icon-Like icon--lg"></i>
                                 <h4>Take Action</h4>
                                 <p> commit to doing this challenge</p>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3" id='community-link'>
+                        <div class="col-sm-6 col-md-3 action-btn" id='community-link'>
                             <div class="text-block"> <i class="icon icon-Conference icon--lg"></i>
                                 <h4>Join Others</h4>
                                 <p> in our challenge community</p>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3" id='dig-link'>
+                        <div class="col-sm-6 col-md-3 action-btn" id='dig-link'>
                             <div class="text-block"> <i class="icon icon-Shovel icon--lg"></i>
                                 <h4>Dig Deeper</h4>
                                 <p> get deeper with this challenge</p>
                             </div>
                         </div>
-                        <div class="col-sm-6 col-md-3" id='guidance-link'>
+                        <div class="col-sm-6 col-md-3 action-btn" id='guidance-link'>
                             <div class="text-block"> <i class="icon icon-Affiliate icon--lg"></i>
                                 <h4>Get Extra Support</h4>
                                 <p> see our menu for extra guidance</p>
@@ -129,33 +498,6 @@
                     </div>
                 </div>
             </section>
-            <section class="text-center section-guidance" id='section-guidance'>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8 col-sm-10">
-                            <div class="slider" data-paging="true">
-                                <ul class="slides">
-                                    <li>
-                                        <div class="testimonial">
-                                            <blockquote> “Zelos has an amazing teaching style. The workshops combined reflective thinking with interactive exercises that have really impacted our staff and the work environment.” </blockquote>
-                                            <h5>Jason Briggs</h5> <span>State of Nevada</span> </div>
-                                    </li>
-                                    <li>
-                                        <div class="testimonial">
-                                            <blockquote> “The training I have received from Zelos has been amazing.” </blockquote>
-                                            <h5>Rob Vasquez</h5> <span>City of Alexandria, VA</span> </div>
-                                    </li>
-                                    <li>
-                                        <div class="testimonial">
-                                            <blockquote> “We’ve been using Zelos for the past 9 years to bring their experience into our organization.” </blockquote>
-                                            <h5>Maguerite Holland</h5> <span>Federal Systems</span> </div>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <section class="cover imagebg text-center height-auto section-guidance" data-gradient-bg="#4876BD,#5448BD,#8F48BD,#BD48B1">
                 <div class="container pos-vertical-center">
                     <div class="row">
@@ -168,78 +510,16 @@
                     </div>
                 </div>
             </section>
-            <section class='hidden section-comments' id='section-comments'>
-                <div class="container">
-                    <div class="row">
-                        <div class="col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-                            <div class="comments">
-                                <h3>4 Comments</h3>
-                                <ul class="comments__list">
-                                    <li>
-                                        <div class="comment">
-                                            <div class="comment__avatar"> <img alt="Image" src="img/avatar-round-1.png"> </div>
-                                            <div class="comment__body">
-                                                <h5 class="type--fine-print">Anne Brady</h5>
-                                                <div class="comment__meta"> <span>10th May 2016</span><a href="#">Reply</a> </div>
-                                                <p> Affordances food-truck SpaceTeam unicorn disrupt integrate viral pair programming big data pitch deck intuitive intuitive prototype long shadow. Responsive hacker intuitive driven </p>
-                                            </div>
-                                        </div>
-                                        <div class="comment">
-                                            <div class="comment__avatar"> <img alt="Image" src="img/avatar-round-3.png"> </div>
-                                            <div class="comment__body">
-                                                <h5 class="type--fine-print">Jacob Sims</h5>
-                                                <div class="comment__meta"> <span>10th May 2016</span><a href="#">Reply</a> </div>
-                                                <p> Prototype intuitive intuitive thought leader personas parallax paradigm long shadow engaging unicorn SpaceTeam fund ideate paradigm. </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="comment">
-                                            <div class="comment__avatar"> <img alt="Image" src="img/avatar-round-2.png"> </div>
-                                            <div class="comment__body">
-                                                <h5 class="type--fine-print">Kelly Dewitt</h5>
-                                                <div class="comment__meta"> <span>11th May 2016</span><a href="#">Reply</a> </div>
-                                                <p> Responsive hacker intuitive driven waterfall is so 2000 and late intuitive cortado bootstrapping venture capital. Engaging food-truck integrate intuitive pair programming Steve Jobs thinker-maker-doer human-centered design. </p>
-                                                <p> Affordances food-truck SpaceTeam unicorn disrupt integrate viral pair programming big data pitch deck intuitive intuitive prototype long shadow. Responsive hacker intuitive driven </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li>
-                                        <div class="comment">
-                                            <div class="comment__avatar"> <img alt="Image" src="img/avatar-round-4.png"> </div>
-                                            <div class="comment__body">
-                                                <h5 class="type--fine-print">Luke Smith</h5>
-                                                <div class="comment__meta"> <span>11th May 2016</span><a href="#">Reply</a> </div>
-                                                <p> Unicorn disrupt integrate viral pair programming big data pitch deck intuitive intuitive prototype long shadow. Responsive hacker intuitive driven </p>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="comments-form">
-                                <h4>Leave a comment</h4>
-                                <div class="row">
-                                    <form>
-                                        <div class="col-sm-6"> <label>Your Name:</label> <input type="text" name="Name" placeholder="Type name here"> </div>
-                                        <div class="col-sm-6"> <label>Email Address:</label> <input type="email" name="Email" placeholder="you@mailprovider.com"> </div>
-                                        <div class="col-sm-12"> <label>Comment:</label> <textarea rows="4" name="Message" placeholder="Message"></textarea> </div>
-                                        <div class="col-sm-3"> <button class="btn btn--primary" type="submit">Submit Comment</button> </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
             <footer class="footer-1 text-center-xs" style='padding-top: 50px;'>
                 <div class="container">
                     <div class="row">
                         <div class="col-sm-6">
                             <ul class="list-inline list--hover">
-                                <li> <a href="#"><span>Our Company</span></a> </li>
-                                <li> <a href="#"><span>Locations</span></a> </li>
-                                <li> <a href="#"><span>Products</span></a> </li>
-                                <li> <a href="#"><span>Work With Us</span></a> </li>
+                                <li> <a href="#"><span>Home</span></a> </li>
+                                <li> <a href="#"><span>Zelos LLC</span></a> </li>
+                                <li> <a href="#"><span>Daily Challenges</span></a> </li>
+                                <li> <a href="#"><span>Personal Growth Center</span></a> </li>
+                                <li> <a href="#"><span>Guides &amp; Executive Coaching</span></a> </li>
                             </ul>
                         </div>
                         <div class="col-sm-6 text-right text-center-xs">
@@ -268,49 +548,7 @@
         <script src="js/scripts.js"></script>
 
 
-<script data-cfasync="false" type="text/javascript">
-  window.civchat = {
-    apiKey: 'AJy1QF'
-  }
-</script>
- 
-<script data-cfasync="false" type="text/javascript" src="https://widget.userengage.com/widget.js"></script>
 
-
-<script>
-var smoothlinks = function() {
-  $('.section-guidance').each(function() {
-    $(this).addClass('hidden');
-  });
-  $('#section-action').addClass('hidden');
-  $('#community-link').click(function() {
-    $('#section-comments').removeClass('hidden');
-    var anchor = document.querySelector( '#section-comments' );
-    var options = { speed: 700, easing: 'easeInOutCubic', offset: 100 };
-    smoothScroll.animateScroll( anchor, null, options );
-  });
-  $('#action-link').click(function() {
-    $('#section-action').removeClass('hidden');
-    var anchor = document.querySelector( '#section-action' );
-    var options = { speed: 400, easing: 'easeInOutCubic', offset: 100 };
-    smoothScroll.animateScroll( anchor, null, options );
-  });
-  $('#guidance-link').click(function() {
-    $('.section-guidance').each(function() {
-      $(this).removeClass('hidden');
-    });
-    var anchor = document.querySelector( '#section-guidance' );
-    var options = { speed: 700, easing: 'easeInOutCubic', offset: 100 };
-    smoothScroll.animateScroll( anchor, null, options );
-  });
-};
-
-$(document).ready(function() {
-  smoothlinks();
-});
-
-</script>
-
-    </body>
+    </body> -->
 
 </html>
