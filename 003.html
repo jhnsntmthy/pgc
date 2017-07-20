@@ -148,6 +148,33 @@
                     </div>
                 </div>
             </section>
+            <section class="imagebg revealable section-dig" data-overlay="9">
+                <div class="background-image-holder"> <img alt="background" src="img/bokeh.jpg"> </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="feature feature-1 boxed boxed--border">
+                                <h5>The why</h5>
+                                <p> Develop your team by sharing a useful resource. If you read something that has taught you something new or changed your perspective in a positive way, it might also help your team members. If you get a range of thoughtful responses to the piece that you shared, consider including a discussion on it during the next team meeting you lead. </p>
+                                <a href="#"> </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-1 boxed boxed--border">
+                                <h5> Long term</h5>
+                                <p> This act is part of your long­term effort to lead others effectively by providing an informal learning opportunity. </p>
+                                <a href="#"> </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature--featured feature-1 boxed boxed--border">
+                                <h5>Next steps</h5>
+                                <p> If you find interesting, relevant sources, be sure to get on that distribution list or bookmark it for easy and frequent access. Get in the habit of sharing useful information with your team members and encourage staff to share any great resources they find. </p>
+                                <a href="#" class="action-link"> </a> <span class="label">Take action</span> </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section class="text-center revealable section-minihub cover imagebg" data-gradient-bg="#336699,#663399,#993366,#339966">
                 <div class="container">
                     <div class="row">
@@ -241,13 +268,22 @@
             var options = { speed: 700, easing: 'easeInOutCubic', offset: 100 };
             smoothScroll.animateScroll( anchor, null, options );
           });
-          $('.action-link').click(function() {
+          $('.action-link').click(function(e) {
+            e.preventDefault();
             $('.section-action').removeClass('hidden');
             var anchor = document.querySelector( '.section-action' );
             var options = { speed: 400, easing: 'easeInOutCubic', offset: 100 };
             smoothScroll.animateScroll( anchor, null, options );
           });
-          $('.minihub-link').click(function() {
+          $('.dig-link').click(function(e) {
+            e.preventDefault();
+            $('.section-dig').removeClass('hidden');
+            var anchor = document.querySelector( '.section-dig' );
+            var options = { speed: 400, easing: 'easeInOutCubic', offset: 100 };
+            smoothScroll.animateScroll( anchor, null, options );
+          });
+          $('.minihub-link').click(function(e) {
+            e.preventDefault();
             $('.section-minihub').each(function() {
               $(this).removeClass('hidden');
             });

@@ -145,6 +145,39 @@
                     </div>
                 </div>
             </section>
+            <section class="imagebg revealable section-dig" data-overlay="9">
+                <div class="background-image-holder"> <img alt="background" src="img/bokeh.jpg"> </div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="feature feature-1 boxed boxed--border">
+                                <h5>The why</h5>
+                                <p> 
+                                Consider doing this exercise with your co­workers the next time you are solving a difficult problem together.
+                                </p>
+                                <a href="#"> </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature-1 boxed boxed--border">
+                                <h5> Long term</h5>
+                                <p> 
+                                  This act is part of your long­term effort to be an effective change agent and manager of change. If you are not naturally “innovative,” it can help you learn to be more so.
+                                </p>
+                                <a href="#"> </a>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="feature feature--featured feature-1 boxed boxed--border">
+                                <h5>Next steps</h5>
+                                <p> 
+                                  Consider doing this exercise with your co­workers the next time you are solving a difficult problem together.
+                                </p>
+                                <a href="#" class="action-link"> </a> <span class="label">Take action</span> </div>
+                        </div>
+                    </div>
+                </div>
+            </section>              
             <section class="text-center revealable section-minihub cover imagebg" data-gradient-bg="#336699,#663399,#993366,#339966">
                 <div class="container">
                     <div class="row">
@@ -237,13 +270,22 @@
             var options = { speed: 700, easing: 'easeInOutCubic', offset: 100 };
             smoothScroll.animateScroll( anchor, null, options );
           });
-          $('.action-link').click(function() {
+          $('.action-link').click(function(e) {
+            e.preventDefault();
             $('.section-action').removeClass('hidden');
             var anchor = document.querySelector( '.section-action' );
             var options = { speed: 400, easing: 'easeInOutCubic', offset: 100 };
             smoothScroll.animateScroll( anchor, null, options );
           });
-          $('.minihub-link').click(function() {
+          $('.dig-link').click(function(e) {
+            e.preventDefault();
+            $('.section-dig').removeClass('hidden');
+            var anchor = document.querySelector( '.section-dig' );
+            var options = { speed: 400, easing: 'easeInOutCubic', offset: 100 };
+            smoothScroll.animateScroll( anchor, null, options );
+          });
+          $('.minihub-link').click(function(e) {
+            e.preventDefault();
             $('.section-minihub').each(function() {
               $(this).removeClass('hidden');
             });
