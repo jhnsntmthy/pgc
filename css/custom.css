@@ -2,3 +2,10 @@
 .action-btn { 
   cursor: pointer;
 }
+.why-content, .next-steps-content {
+  margin-top: 3em;
+}
+
+.feature.boxed.current {
+  opacity: 0.3;
+}
